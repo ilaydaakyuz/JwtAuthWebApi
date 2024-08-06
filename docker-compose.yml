@@ -1,0 +1,52 @@
+version: '3.9'
+
+services:
+  webapi:
+    image: mywebapi
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5020:80"
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      - ASPNETCORE_URLS=http://+:80
+      - ASPNETCORE_ENVIRONMENT=Development
+      - Jwt__Issuer=http://localhost:5020  # Port numarasını güncelledim
+      - Jwt__Audience=http://localhost:5020  # Port numarasını güncelledim
+      - Jwt__Key=Bu_Cok_Gizli_Bir_Anahtar_Olmali_Ve_Uzun_Olmali
+      - ConnectionStrings__DefaultConnection=Host=postgres;Database=mydatabase;Username=myuser;Password=mypassword  # Host'u 'postgres' olarak değiştirdim
+      - ConnectionStrings__Redis=redis:6379
+    networks:
+      - mynetwork  # Ağ tanımı ekledim
+
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_DB: mydatabase
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+    ports:
+      - "5432:5432"
+    networks:
+      - mynetwork  # Ağ tanımı ekledim
+    volumes:
+      - postgres-data:/var/lib/postgresql/data  # Veri kalıcılığı için volume ekledim
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - mynetwork  # Ağ tanımı ekledim
+
+networks:
+  mynetwork:  # Özel ağ tanımladım
+
+volumes:
+  redis-data:
+  postgres-data:  # PostgreSQL için volume tanımladım
