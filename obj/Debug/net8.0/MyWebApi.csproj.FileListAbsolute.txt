@@ -155,3 +155,17 @@ C:\Users\gtstaj0024\MyWebApi\bin\Debug\net8.0\Swashbuckle.AspNetCore.Filters.Abs
 C:\Users\gtstaj0024\MyWebApi\bin\Debug\net8.0\MediatR.dll
 C:\Users\gtstaj0024\MyWebApi\bin\Debug\net8.0\MediatR.Contracts.dll
 C:\Users\gtstaj0024\MyWebApi\bin\Debug\net8.0\MediatR.Extensions.Microsoft.DependencyInjection.dll
+C:\Users\gtstaj0024\MyWebApi\bin\Debug\net8.0\AWSSDK.Core.dll
+C:\Users\gtstaj0024\MyWebApi\bin\Debug\net8.0\AWSSDK.SecurityToken.dll
+C:\Users\gtstaj0024\MyWebApi\bin\Debug\net8.0\DnsClient.dll
+C:\Users\gtstaj0024\MyWebApi\bin\Debug\net8.0\MongoDB.Bson.dll
+C:\Users\gtstaj0024\MyWebApi\bin\Debug\net8.0\MongoDB.Driver.dll
+C:\Users\gtstaj0024\MyWebApi\bin\Debug\net8.0\MongoDB.Driver.Core.dll
+C:\Users\gtstaj0024\MyWebApi\bin\Debug\net8.0\MongoDB.Libmongocrypt.dll
+C:\Users\gtstaj0024\MyWebApi\bin\Debug\net8.0\SharpCompress.dll
+C:\Users\gtstaj0024\MyWebApi\bin\Debug\net8.0\Snappier.dll
+C:\Users\gtstaj0024\MyWebApi\bin\Debug\net8.0\ZstdSharp.dll
+C:\Users\gtstaj0024\MyWebApi\bin\Debug\net8.0\runtimes\linux\native\libmongocrypt.so
+C:\Users\gtstaj0024\MyWebApi\bin\Debug\net8.0\runtimes\osx\native\libmongocrypt.dylib
+C:\Users\gtstaj0024\MyWebApi\bin\Debug\net8.0\runtimes\win\native\mongocrypt.dll
+C:\Users\gtstaj0024\MyWebApi\obj\Debug\net8.0\MyWebApi.sourcelink.json

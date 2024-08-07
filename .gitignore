@@ -1,0 +1,43 @@
+# Build Folders
+/bin/
+/obj/
+
+# User-specific Files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Mono Auto Generated Files
+mono_crash.*
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# NCrunch
+_NCrunch_*
+.*crunch*.local.xml
+
+# Mac
+.DS_Store
+
+# Rider
+.idea/
+.rider/
+
+# Visual Studio Code
+.vscode/
+
+# Log files
+*.log
+
+# DLL Files
+*.dll

@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
-using MyWebApi.Enums;
 using Microsoft.AspNetCore.Authorization;
 using MediatR;
-using MyWebApi;
+using MyWebApi.Domain.Commands;
+using MyWebApi.Domain.Enums;
+using MyWebApi.Application.Attributes;
 
+namespace MyWebApi.Controller;
 
 [ApiController]
 [Route("api/[controller]")]

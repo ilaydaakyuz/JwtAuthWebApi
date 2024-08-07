@@ -5,8 +5,15 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using MyWebApi;
-using MyWebApi.Data;
+using MongoDB.Driver;
+using MyWebApi.Application.Attributes;
+using MyWebApi.Application.Services;
+using MyWebApi.Behaviors;
+using MyWebApi.Domain.Interfaces;
+using MyWebApi.Domain.Models;
+using MyWebApi.Infrastructure;
+using MyWebApi.Infrastructure.Data;
+using MyWebApi.Repositories;
 using StackExchange.Redis;
 using System.Text;
 
@@ -15,6 +22,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Database configuration
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.Configure<MongoSettings>(builder.Configuration.GetSection("MongoDB"));
 
 // Identity configuration
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
@@ -122,8 +130,11 @@ builder.Services.AddScoped<CustomAuthorizeAttribute>();
 
 builder.Services.AddControllers();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
+builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingPipelineBehavior<,>));
 
+builder.Services.AddSingleton(typeof(IGenericRepository<>),typeof(GenericRepository<>));
 // Logging configuration
+
 builder.Logging.AddConfiguration(builder.Configuration.GetSection("Logging"));
 builder.Logging.AddConsole();
 builder.Logging.AddDebug();
