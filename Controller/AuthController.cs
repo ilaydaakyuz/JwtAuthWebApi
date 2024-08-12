@@ -73,7 +73,7 @@ public class AuthController(ILogger<AuthController> _logger, IMediator _mediator
     }
 
 
-    [HttpGet("GetUserInfo")]
+    [HttpGet("GetUserInfoWithRedis")]
     public async Task<IActionResult> GetUserInfo(string userId)
     {
         _logger.LogInformation($"GetUserInfo method called for userId: {userId}");

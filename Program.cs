@@ -13,7 +13,9 @@ using MyWebApi.Domain.Interfaces;
 using MyWebApi.Domain.Models;
 using MyWebApi.Infrastructure;
 using MyWebApi.Infrastructure.Data;
+using MyWebApi.Infrastructure.Messaging.RabbitMQ;
 using MyWebApi.Repositories;
+using RabbitMQ.Client;
 using StackExchange.Redis;
 using System.Text;
 
@@ -39,7 +41,7 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 // Swagger configuration
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Your API", Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Jwt Auth API", Version = "v1" });
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
@@ -103,6 +105,17 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
+// RabbitMQ Configuration
+builder.Services.AddSingleton<IConnection>(sp =>
+{
+    var factory = new ConnectionFactory()
+    {
+        HostName = builder.Configuration["RabbitMQ:HostName"],
+        UserName = builder.Configuration["RabbitMQ:UserName"],
+        Password = builder.Configuration["RabbitMQ:Password"]
+    };
+    return factory.CreateConnection();
+});
 // JWT configuration
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -133,6 +146,8 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Progr
 builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingPipelineBehavior<,>));
 
 builder.Services.AddSingleton(typeof(IGenericRepository<>),typeof(GenericRepository<>));
+builder.Services.AddSingleton<RabbitMqLogConsumer>();
+builder.Services.AddHostedService<RabbitMqLogConsumerService>();
 // Logging configuration
 
 builder.Logging.AddConfiguration(builder.Configuration.GetSection("Logging"));

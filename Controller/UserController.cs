@@ -11,8 +11,8 @@ public class UserController(IUserService _userService, ILogger<UserController> _
 {
 
 
-    [HttpPost("create")]
-    public async Task<IActionResult> CreateUser([FromBody] RegisterModel model)
+    [HttpPost("Create")]
+    public async Task<IActionResult> CreateUser(RegisterModel model)
     {
         try
         {
@@ -36,7 +36,7 @@ public class UserController(IUserService _userService, ILogger<UserController> _
         }
     }
 
-    [HttpGet("{userId}")]
+    [HttpGet("Read")]
     public async Task<IActionResult> GetUser(string userId)
     {
         try
@@ -60,8 +60,8 @@ public class UserController(IUserService _userService, ILogger<UserController> _
         }
     }
 
-    [HttpPut("{userId}")]
-    public async Task<IActionResult> UpdateUser(string userId, [FromBody] UpdateModel model)
+    [HttpPut("Update")]
+    public async Task<IActionResult> UpdateUser(string userId,UpdateModel model)
     {
         try
         {
@@ -85,7 +85,7 @@ public class UserController(IUserService _userService, ILogger<UserController> _
         }
     }
 
-    [HttpDelete("{userId}")]
+    [HttpDelete("Delete")]
     public async Task<IActionResult> DeleteUser(string userId)
     {
         try
