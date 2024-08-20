@@ -147,7 +147,10 @@ builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingPipelineB
 
 builder.Services.AddSingleton(typeof(IGenericRepository<>),typeof(GenericRepository<>));
 builder.Services.AddSingleton<RabbitMqLogConsumer>();
+builder.Services.AddSingleton<IRabbitMqService, RabbitMqService>();
+builder.Services.AddSingleton<RabbitMqService>();
 builder.Services.AddHostedService<RabbitMqLogConsumerService>();
+builder.Services.AddHostedService<RabbitMqConsumerService>();
 // Logging configuration
 
 builder.Logging.AddConfiguration(builder.Configuration.GetSection("Logging"));

@@ -1,9 +1,10 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
+
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using MyWebApi.Application.Attributes;
 using MyWebApi.Domain.Commands;
 using MyWebApi.Domain.Enums;
-using MyWebApi.Application.Attributes;
 
 namespace MyWebApi.Controller;
 
@@ -92,21 +93,15 @@ public class AuthController(ILogger<AuthController> _logger, IMediator _mediator
 
         return Ok(result.UserInfo);
     }
-    // [HttpGet("health/redis")]
-    // public IActionResult CheckRedisHealth()
-    // {
-    //     try
-    //     {
-    //         var db = _connectionMultiplexer.GetDatabase();
-    //         var pong = db.Ping();
-    //         return Ok($"Redis is connected. Ping: {pong.TotalMilliseconds}ms");
-    //     }
-    //     catch (Exception ex)
-    //     {
-    //         _logger.LogError(ex, "Redis health check failed");
-    //         return StatusCode(500, "Redis connection failed");
-    //     }
-    // }
+    
+     [HttpPost("SendMessage")]
+         public async Task<IActionResult> SendMessage([FromBody] string message)
+    {
+        var command = new SendMessageCommand(message);
+        var result = await _mediator.Send(command);
+        return Ok(result);
+    }
+
     private int GetStatusCodeFromErrorType(ErrorType errorType)
     {
         return errorType switch

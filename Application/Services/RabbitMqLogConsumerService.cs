@@ -4,28 +4,31 @@ using MyWebApi.Infrastructure.Messaging.RabbitMQ;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
-public class RabbitMqLogConsumerService(IConnection _connection, RabbitMqLogConsumer _logConsumer, ILogger<RabbitMqLogConsumerService> _logger) : BackgroundService
+namespace MyWebApi.Application.Services
 {
-    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    public class RabbitMqLogConsumerService(IConnection _connection, RabbitMqLogConsumer _logConsumer, ILogger<RabbitMqLogConsumerService> _logger) : BackgroundService
     {
-        using (var channel = _connection.CreateModel())
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            channel.QueueDeclare(queue: "logQueue", durable: true, exclusive: false, autoDelete: false, arguments: null);
-
-            var consumer = new EventingBasicConsumer(channel);
-            consumer.Received += async (model, ea) =>
+            using (var channel = _connection.CreateModel())
             {
-                var body = ea.Body.ToArray();
-                var message = Encoding.UTF8.GetString(body);
-                _logger.LogInformation("Received message: {Message}", message);
+                channel.QueueDeclare(queue: "logQueue", durable: true, exclusive: false, autoDelete: false, arguments: null);
 
-                await _logConsumer.ProcessLogAsync(message);
-                channel.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
-            };
+                var consumer = new EventingBasicConsumer(channel);
+                consumer.Received += async (model, ea) =>
+                {
+                    var body = ea.Body.ToArray();
+                    var message = Encoding.UTF8.GetString(body);
+                    _logger.LogInformation("Received message: {Message}", message);
 
-            channel.BasicConsume(queue: "logQueue", autoAck: true, consumer: consumer);
+                    await _logConsumer.ProcessLogAsync(message);
+                    channel.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
+                };
 
-            await Task.Delay(-1, stoppingToken);
+                channel.BasicConsume(queue: "logQueue", autoAck: true, consumer: consumer);
+
+                await Task.Delay(-1, stoppingToken);
+            }
         }
     }
 }

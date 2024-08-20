@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.Text;
 using System.Text.Json;
 using MediatR;
-using MyWebApi.Domain.Interfaces;
 using MyWebApi.Domain.Models;
 using RabbitMQ.Client;
 
