@@ -14,6 +14,7 @@ using MyWebApi.Domain.Models;
 using MyWebApi.Infrastructure;
 using MyWebApi.Infrastructure.Data;
 using MyWebApi.Infrastructure.Messaging.RabbitMQ;
+using MyWebApi.Infrastructure.Middleware;
 using MyWebApi.Repositories;
 using RabbitMQ.Client;
 using StackExchange.Redis;
@@ -145,7 +146,7 @@ builder.Services.AddControllers();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
 builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingPipelineBehavior<,>));
 
-builder.Services.AddSingleton(typeof(IGenericRepository<>),typeof(GenericRepository<>));
+builder.Services.AddSingleton(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddSingleton<RabbitMqLogConsumer>();
 builder.Services.AddSingleton<IRabbitMqService, RabbitMqService>();
 builder.Services.AddSingleton<RabbitMqService>();
@@ -178,7 +179,7 @@ else
     app.UseExceptionHandler("/error");
     app.UseHsts();
 }
-
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseHttpsRedirection();
 app.UseRouting();
 app.UseSession();

@@ -93,9 +93,9 @@ public class AuthController(ILogger<AuthController> _logger, IMediator _mediator
 
         return Ok(result.UserInfo);
     }
-    
-     [HttpPost("SendMessage")]
-         public async Task<IActionResult> SendMessage([FromBody] string message)
+
+    [HttpPost("SendMessage")]
+    public async Task<IActionResult> SendMessage([FromBody] string message)
     {
         var command = new SendMessageCommand(message);
         var result = await _mediator.Send(command);
