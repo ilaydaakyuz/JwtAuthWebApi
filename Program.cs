@@ -89,14 +89,14 @@ builder.Services.AddStackExchangeRedisCache(options =>
     options.ConfigurationOptions = redisOptions;
 });
 
-// CORS configuration
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll", builder =>
-        builder.AllowAnyOrigin()
+    options.AddPolicy("AllowSpecific", builder =>
+        builder.WithOrigins("http://localhost:4200")
                .AllowAnyMethod()
                .AllowAnyHeader());
 });
+
 
 // Session configuration
 builder.Services.AddSession(options =>
@@ -183,7 +183,7 @@ app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseHttpsRedirection();
 app.UseRouting();
 app.UseSession();
-app.UseCors("AllowAll");
+app.UseCors("AllowSpecific");
 app.UseAuthentication();
 app.UseAuthorization();
 

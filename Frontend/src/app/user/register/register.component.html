@@ -1,0 +1,26 @@
+<!-- register.component.html -->
+<div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <h2 class="card-title">Register</h2>
+            <form (ngSubmit)="register()">
+              <div class="form-group">
+                <label for="username">Username:</label>
+                <input id="username" type="text" [(ngModel)]="clientId" name="username" class="form-control" required />
+              </div>
+              <div class="form-group">
+                <label for="password">Password:</label>
+                <input id="password" type="password" [(ngModel)]="clientSecret" name="password" class="form-control" required />
+              </div>
+              <button type="submit" class="btn btn-primary btn-block">Register</button>
+              <p class="mt-3 text-center">Already have an account? <a [routerLink]="['/login']">Login here</a></p>
+              <div *ngIf="errorMessage" class="alert alert-danger mt-3">{{ errorMessage }}</div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

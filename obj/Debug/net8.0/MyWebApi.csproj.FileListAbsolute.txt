@@ -170,3 +170,9 @@ C:\Users\gtstaj0024\MyWebApi\obj\Debug\net8.0\MyWebApi.pdb
 C:\Users\gtstaj0024\MyWebApi\obj\Debug\net8.0\MyWebApi.genruntimeconfig.cache
 C:\Users\gtstaj0024\MyWebApi\obj\Debug\net8.0\ref\MyWebApi.dll
 C:\Users\gtstaj0024\MyWebApi\bin\Debug\net8.0\Newtonsoft.Json.dll
+C:\Users\gtstaj0024\MyWebApi\bin\Debug\net8.0\Frontend\angular.json
+C:\Users\gtstaj0024\MyWebApi\bin\Debug\net8.0\Frontend\package-lock.json
+C:\Users\gtstaj0024\MyWebApi\bin\Debug\net8.0\Frontend\package.json
+C:\Users\gtstaj0024\MyWebApi\bin\Debug\net8.0\Frontend\tsconfig.app.json
+C:\Users\gtstaj0024\MyWebApi\bin\Debug\net8.0\Frontend\tsconfig.json
+C:\Users\gtstaj0024\MyWebApi\bin\Debug\net8.0\Frontend\tsconfig.spec.json
