@@ -1,0 +1,32 @@
+<div class="container mt-4">
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <div class="card">
+          <div class="card-header">
+            <h2>Mesaj Gönder</h2>
+          </div>
+          <div class="card-body">
+            <form (ngSubmit)="sendMessage()">
+              <div class="mb-3">
+                <textarea
+                  [(ngModel)]="messageText"
+                  name="message"
+                  class="form-control"
+                  rows="4"
+                  placeholder="Mesajınızı buraya yazın..."
+                  required
+                ></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary">Gönder</button>
+            </form>
+            <div *ngIf="responseMessage" class="mt-3">
+              <div class="alert" [ngClass]="{'alert-success': isSuccess, 'alert-danger': !isSuccess}">
+                {{ responseMessage }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

@@ -1,6 +1,6 @@
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { tap, catchError, map, switchMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
@@ -120,11 +120,17 @@ export class AuthService {
   }
 
   sendMessage(message: string): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/auth/SendMessage`, { message }).pipe(
-      catchError(this.handleError)
+    const formattedMessage = `"${message}"`;
+    return this.http.post<any>(`${this.apiUrl}/auth/SendMessage`, formattedMessage, {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    }).pipe(
+      catchError(error => {
+        console.error('Mesaj gönderim hatası:', error);
+        return throwError(() => new Error(error.message));
+      })
     );
   }
-
+  
   setLoggedIn(value: boolean): void {
     this.loggedIn.next(value);
     if (!value) {

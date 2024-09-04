@@ -25,6 +25,7 @@ export class LoginComponent {
           // Token'ı null veya undefined kontrolü
           if (response.token) {
             localStorage.setItem('token', response.token);
+            localStorage.setItem('userId', response.userId); 
             console.log('Token set:', localStorage.getItem('token'));
             this.router.navigateByUrl('/dashboard');
             console.log('Navigation to dashboard successful');
