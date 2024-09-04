@@ -95,39 +95,25 @@ public class AuthController(ILogger<AuthController> _logger, IMediator _mediator
     }
 
     [HttpPost("SendMessage")]
-    public async Task<IActionResult> SendMessage()
+    public async Task<IActionResult> SendMessage([FromBody] string message)
     {
-        // 'Content-Type' başlığını kontrol et
-        if (!Request.ContentType.Equals("text/plain", StringComparison.OrdinalIgnoreCase))
+        if (message == null)
         {
-            return StatusCode(StatusCodes.Status415UnsupportedMediaType, "Desteklenmeyen medya türü.");
+            return BadRequest("Mesaj alanı boş olamaz.");
         }
 
-        // Veriyi oku
-        using (var reader = new StreamReader(Request.Body))
+        try
         {
-            var message = await reader.ReadToEndAsync();
-
-            if (string.IsNullOrEmpty(message))
-            {
-                return BadRequest("Mesaj alanı boş olamaz.");
-            }
-
-            try
-            {
-                var command = new SendMessageCommand(message);
-                var result = await _mediator.Send(command);
-                return Ok(new { success = true, message = result });
-            }
-            catch (Exception ex)
-            {
-                // Hata günlüğü ve detaylı hata yanıtı
-                return StatusCode(StatusCodes.Status500InternalServerError, new { error = ex.Message });
-            }
+            var command = new SendMessageCommand(message);
+            var result = await _mediator.Send(command);
+            return Ok(new { success = true, message = result });
+        }
+        catch (Exception ex)
+        {
+            // Hata günlüğü ve detaylı hata yanıtı
+            return StatusCode(500, new { error = ex.Message });
         }
     }
-
-
 
     private int GetStatusCodeFromErrorType(ErrorType errorType)
     {
