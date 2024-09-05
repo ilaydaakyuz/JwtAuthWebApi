@@ -1,0 +1,65 @@
+<div class="container mt-5">
+    <h2>Admin Dashboard</h2>
+
+    <!-- Success and Error Messages -->
+    <div *ngIf="successMessage" class="alert alert-success">
+        {{ successMessage }}
+    </div>
+    <div *ngIf="errorMessage" class="alert alert-danger">
+        {{ errorMessage }}
+    </div>
+
+    <!-- User Form -->
+    <form #userForm="ngForm" (ngSubmit)="createUser(userForm)">
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" class="form-control" required [(ngModel)]="user.clientId"
+                name="username" />
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" class="form-control" required [(ngModel)]="user.clientSecret"
+                name="password" />
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-3">
+            Create User
+        </button>
+    </form>
+    
+
+    <hr />
+
+    <!-- User List -->
+    <h3>User List</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>UserId</th>
+                <th>Username</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let user of users">
+                <td>{{ user.userId }}</td>
+                <td>{{ user.clientId }}</td>
+                <td>
+                    <button class="btn btn-warning btn-sm" (click)="selectUserForUpdate(user)">Edit</button>
+                    <button class="btn btn-danger btn-sm" (click)="deleteUser(user.userId)">Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <form *ngIf="selectedUserId" (ngSubmit)="updateUser(updateForm)" #updateForm="ngForm">
+        <h3>Update User</h3>
+        <div class="form-group">
+          <label for="updateUsername">Username:</label>
+          <input type="text" id="updateUsername" class="form-control" [(ngModel)]="user.clientId" name="updateUsername" required />
+        </div>
+   
+    
+        <button type="submit" class="btn btn-primary">Update User</button>
+      </form>
+</div>

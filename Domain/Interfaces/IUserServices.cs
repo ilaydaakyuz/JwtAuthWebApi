@@ -9,4 +9,5 @@ public interface IUserService
     Task<UserDetailsModel> GetUserByIdAsync(string userId);
     Task<IdentityResult> UpdateUserAsync(string userId, UpdateModel model);
     Task<IdentityResult> DeleteUserAsync(string userId);
+    Task<IEnumerable<UserDetailsModel>> GetAllUsersAsync();
 }

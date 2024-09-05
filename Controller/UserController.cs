@@ -14,19 +14,19 @@ public class UserController(IUserService _userService, ILogger<UserController> _
     [HttpPost("Create")]
     public async Task<IActionResult> CreateUser(RegisterModel model)
     {
-       
-            var result = await _userService.RegisterUserAsync(model);
 
-            if (result.Succeeded)
-            {
-                _logger.LogInformation("User created successfully: {Email}", model.ClientId);
-                return Ok(new { message = "User created successfully" });
-            }
-            else
-            {
-                _logger.LogError("User creation failed: {@Errors}", result.Errors);
-                return BadRequest(new { errors = result.Errors });
-            }
+        var result = await _userService.RegisterUserAsync(model);
+
+        if (result.Succeeded)
+        {
+            _logger.LogInformation("User created successfully: {Email}", model.ClientId);
+            return Ok(new { message = "User created successfully" });
+        }
+        else
+        {
+            _logger.LogError("User creation failed: {@Errors}", result.Errors);
+            return BadRequest(new { errors = result.Errors });
+        }
     }
 
     [HttpGet("Read")]
@@ -81,6 +81,12 @@ public class UserController(IUserService _userService, ILogger<UserController> _
             _logger.LogError("User deletion failed: {@Errors}", result.Errors);
             return BadRequest(new { errors = result.Errors });
         }
+    }
+    [HttpGet("GetAllUsers")]
+    public async Task<IActionResult> GetAllUsers()
+    {
+        var users = await _userService.GetAllUsersAsync();
+        return Ok(users);
     }
 }
 
