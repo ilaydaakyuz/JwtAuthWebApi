@@ -1,9 +1,16 @@
-<div class="container">
-    <h1>Profil Bilgileri</h1>
-    <p><strong>Kullanıcı Adı:</strong> {{ userInfo.UserName }}</p>
-    <p><strong>Email:</strong> {{ userInfo.Email }}</p>
-    <p><strong>Login Time:</strong> {{ userInfo.LoginTime }}</p>
+<div class="container-fluid">
+  <div class="row">
+    <!-- Sol Menü -->
+    <div class="col-md-2 col-lg-2">
+      <app-menu></app-menu>
+    </div>
 
-
+    <!-- İçerik Alanı -->
+    <main role="main" class="col-md-10 ms-sm-auto col-lg-10 px-4">
+      <h1>Profil Bilgileri</h1>
+      <p><strong>Kullanıcı Adı:</strong> {{ userInfo.UserName }}</p>
+      <p><strong>Email:</strong> {{ userInfo.Email }}</p>
+      <p><strong>Login Time:</strong> {{ userInfo.LoginTime }}</p>
+    </main>
   </div>
-  
+</div>

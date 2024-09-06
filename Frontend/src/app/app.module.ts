@@ -7,7 +7,7 @@ import { RouterModule } from '@angular/router';
 import { UserModule } from './user/user.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { AppRoutingModule } from './app-routing.module';
-
+import { MenuComponent } from './dashboard/menu/menu.component';    
 import { AppComponent } from './app.component';
 import { withFetch } from '@angular/common/http';
 import { LoginComponent } from './user/login/login.component';
@@ -16,6 +16,7 @@ import { RegisterComponent } from './user/register/register.component';
 @NgModule({
     declarations: [
         AppComponent,
+        MenuComponent
     ],
     imports: [
         BrowserModule,

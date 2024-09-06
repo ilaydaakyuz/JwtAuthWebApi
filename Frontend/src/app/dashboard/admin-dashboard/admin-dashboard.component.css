@@ -1,0 +1,41 @@
+/* Admin Dashboard */
+.container {
+    max-width: 1200px; 
+  }
+  
+  .btn-danger {
+    color: #fff;
+    background-color: #dc3545;
+    border-color: #dc3545;
+  }
+  .btn-logout {
+    color: #fff;
+    background-color: #dc3545;
+    border-color: #dc3545;
+    position: fixed;
+    bottom: 30px;
+    right: 60px; 
+    z-index: 1000; 
+  }
+  
+
+  .form-group label {
+    font-weight: bold;
+  }
+  
+  .form-group input {
+    margin-bottom: 1rem;
+  }
+  
+  .btn {
+    margin-top: 1rem;
+  }
+  
+  .table th, .table td {
+    text-align: center;
+  }
+  
+  .table td {
+    vertical-align: middle;
+  }
+  

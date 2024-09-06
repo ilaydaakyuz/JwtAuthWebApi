@@ -3,12 +3,13 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../shared/auth.service';
+import { MenuComponent } from '../dashboard/menu/menu.component';
 
 
 @Component({
   selector: 'app-message',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule,MenuComponent],
   templateUrl: './message.component.html',
   styleUrl: './message.component.css'
 })

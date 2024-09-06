@@ -1,42 +1,9 @@
 <div class="container-fluid">
   <div class="row">
     <!-- Sol Menü -->
-    <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
-      <div class="position-sticky">
-        <ul class="nav flex-column">
-          <li class="nav-item">
-            <a class="nav-link active" [routerLink]="['/dashboard']">
-              <i class="bi bi-house-door"></i>
-              Ana Sayfa
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="javascript:void(0)" (click)="navigateToProfile()">
-              <i class="bi bi-person"></i>
-              Profil
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <i class="bi bi-gear"></i>
-              Ayarlar
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="javascript:void(0)" (click)="openMessageForm()">
-              <i class="bi bi-envelope"></i>
-              Mesajlar
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-danger" href="#" (click)="logout()">
-              <i class="bi bi-box-arrow-right"></i>
-              Çıkış Yap
-            </a>
-          </li>
-        </ul>
-      </div>
-    </nav>
+    <div class="col-md-3 col-lg-2">
+      <app-menu></app-menu>
+    </div>
 
     <!-- İçerik Alanı -->
     <main role="main" class="col-md-9 ms-sm-auto col-lg-10 px-4">
@@ -45,7 +12,6 @@
         <!-- İçerik buraya gelecek -->
         <p>Burada Dashboard içeriğiniz yer alacak.</p>
       </div>
-  
     </main>
   </div>
 </div>

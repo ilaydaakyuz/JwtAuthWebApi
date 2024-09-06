@@ -5,12 +5,13 @@ import { Router, RouterModule } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { MenuComponent } from '../menu/menu.component';
 
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [HttpClientModule, CommonModule, FormsModule, RouterModule],
+  imports: [HttpClientModule, CommonModule, FormsModule, RouterModule,MenuComponent],
   providers: [AuthService],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
