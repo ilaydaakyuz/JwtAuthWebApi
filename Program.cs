@@ -11,6 +11,7 @@ using MyWebApi.Application.Services;
 using MyWebApi.Behaviors;
 using MyWebApi.Domain.Interfaces;
 using MyWebApi.Domain.Models;
+using MyWebApi.Hubs;
 using MyWebApi.Infrastructure;
 using MyWebApi.Infrastructure.Data;
 using MyWebApi.Infrastructure.Messaging.RabbitMQ;
@@ -94,7 +95,8 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowSpecific", builder =>
         builder.WithOrigins("http://localhost:4200")
                .AllowAnyMethod()
-               .AllowAnyHeader());
+               .AllowAnyHeader()
+               .AllowCredentials());
 });
 
 
@@ -132,6 +134,19 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]
                 ?? throw new InvalidOperationException("JWT key is not configured")))
         };
+        options.Events = new JwtBearerEvents
+        {
+            OnMessageReceived = context =>
+            {
+                var accessToken = context.Request.Query["access_token"];
+                var path = context.HttpContext.Request.Path;
+                if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/chathub"))
+                {
+                    context.Token = accessToken;
+                }
+                return Task.CompletedTask;
+            }
+        };
     });
 
 // Service registrations
@@ -152,6 +167,7 @@ builder.Services.AddSingleton<IRabbitMqService, RabbitMqService>();
 builder.Services.AddSingleton<RabbitMqService>();
 builder.Services.AddHostedService<RabbitMqLogConsumerService>();
 builder.Services.AddHostedService<RabbitMqConsumerService>();
+builder.Services.AddSignalR();
 // Logging configuration
 
 builder.Logging.AddConfiguration(builder.Configuration.GetSection("Logging"));
@@ -181,12 +197,12 @@ else
 }
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseHttpsRedirection();
-app.UseRouting();
 app.UseSession();
 app.UseCors("AllowSpecific");
+app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
-
+app.MapHub<ChatHub>("/chathub");
 app.MapControllers();
 
 // Health check endpoint

@@ -1,0 +1,20 @@
+.chat-container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.messages {
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.message {
+    background-color: #f8f9fa;
+}
+
+.input-group {
+    margin-top: 10px;
+}

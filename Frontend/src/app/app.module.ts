@@ -12,11 +12,14 @@ import { AppComponent } from './app.component';
 import { withFetch } from '@angular/common/http';
 import { LoginComponent } from './user/login/login.component';
 import { RegisterComponent } from './user/register/register.component';
+import { ChatService } from './shared/chat.service';
+import { ChatComponent } from './chat/chat.component';
 
 @NgModule({
     declarations: [
         AppComponent,
-        MenuComponent
+        MenuComponent,
+        ChatComponent
     ],
     imports: [
         BrowserModule,
@@ -31,7 +34,7 @@ import { RegisterComponent } from './user/register/register.component';
             { path: 'register', component: RegisterComponent }
         ])
     ],
-    providers: [],
+    providers: [ChatService],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -176,3 +176,12 @@ C:\Users\gtstaj0024\MyWebApi\bin\Debug\net8.0\Frontend\package.json
 C:\Users\gtstaj0024\MyWebApi\bin\Debug\net8.0\Frontend\tsconfig.app.json
 C:\Users\gtstaj0024\MyWebApi\bin\Debug\net8.0\Frontend\tsconfig.json
 C:\Users\gtstaj0024\MyWebApi\bin\Debug\net8.0\Frontend\tsconfig.spec.json
+C:\Users\gtstaj0024\MyWebApi\bin\Debug\net8.0\Microsoft.AspNetCore.Connections.Abstractions.dll
+C:\Users\gtstaj0024\MyWebApi\bin\Debug\net8.0\Microsoft.AspNetCore.Http.Connections.Client.dll
+C:\Users\gtstaj0024\MyWebApi\bin\Debug\net8.0\Microsoft.AspNetCore.Http.Connections.Common.dll
+C:\Users\gtstaj0024\MyWebApi\bin\Debug\net8.0\Microsoft.AspNetCore.SignalR.Client.dll
+C:\Users\gtstaj0024\MyWebApi\bin\Debug\net8.0\Microsoft.AspNetCore.SignalR.Client.Core.dll
+C:\Users\gtstaj0024\MyWebApi\bin\Debug\net8.0\Microsoft.AspNetCore.SignalR.Common.dll
+C:\Users\gtstaj0024\MyWebApi\bin\Debug\net8.0\Microsoft.AspNetCore.SignalR.Protocols.Json.dll
+C:\Users\gtstaj0024\MyWebApi\bin\Debug\net8.0\Microsoft.Extensions.Features.dll
+C:\Users\gtstaj0024\MyWebApi\bin\Debug\net8.0\System.Net.WebSockets.WebSocketProtocol.dll

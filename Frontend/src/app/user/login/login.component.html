@@ -10,8 +10,12 @@
           [(ngModel)]="clientId"
           name="username"
           class="form-control"
+          #usernameInput="ngModel"
           required
         />
+        <div *ngIf="usernameInput.invalid && usernameInput.touched" class="text-danger">
+          Username is required.
+        </div>
       </div>
 
       <div class="form-group">
@@ -22,11 +26,16 @@
           [(ngModel)]="clientSecret"
           name="password"
           class="form-control"
+          #passwordInput="ngModel"
           required
         />
+        <div *ngIf="passwordInput.invalid && passwordInput.touched" class="text-danger">
+          Password is required.
+        </div>
       </div>
 
       <button type="submit" class="btn btn-primary w-100 mt-3">Login</button>
+      
 
       <p class="mt-3 text-center">
         Don't have an account? 
@@ -37,5 +46,8 @@
         <a [routerLink]="['/admin-login']">Admin Login</a>
       </div>
     </form>
+    <div *ngIf="errorMessage" class="text-danger mt-3 text-center">
+      {{ errorMessage }}
+    </div>
   </div>
 </div>

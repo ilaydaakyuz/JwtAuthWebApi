@@ -1,0 +1,16 @@
+<div class="container chat-container mt-5">
+    <div class="card">
+        <div class="card-body">
+            <div class="messages mb-3">
+                <div *ngFor="let msg of messages" class="message p-2 mb-2 rounded bg-light">
+                    <strong>{{ msg.user }}:</strong> {{ msg.message }}
+                </div>
+            </div>
+
+            <div class="input-group">
+                <input [(ngModel)]="message" class="form-control" placeholder="Mesajınızı yazın..." />
+                <button class="btn btn-primary" (click)="sendMessage()">Gönder</button>
+            </div>
+        </div>
+    </div>
+</div>
