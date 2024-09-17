@@ -1,16 +1,43 @@
-<div class="container chat-container mt-5">
-    <div class="card">
-        <div class="card-body">
-            <div class="messages mb-3">
-                <div *ngFor="let msg of messages" class="message p-2 mb-2 rounded bg-light">
-                    <strong>{{ msg.user }}:</strong> {{ msg.message }}
-                </div>
-            </div>
-
-            <div class="input-group">
-                <input [(ngModel)]="message" class="form-control" placeholder="Mesajınızı yazın..." />
-                <button class="btn btn-primary" (click)="sendMessage()">Gönder</button>
-            </div>
-        </div>
+<!-- Container for chat application -->
+<div class="container mt-4">
+  <div class="row">
+    <!-- Active Users List -->
+    <div class="col-md-4">
+      <h3 class="mb-3">Active Users</h3>
+      <ul class="list-group">
+        <li *ngFor="let user of activeUsers" class="list-group-item d-flex justify-content-between align-items-center">
+          {{ user }}
+          <button class="btn btn-primary btn-sm" (click)="selectUser(user)">Message</button>
+        </li>
+      </ul>
     </div>
+
+    <!-- Chat Messages Section -->
+    <div class="col-md-8">
+      <h3 class="mb-3">Chat with {{ selectedUser }}</h3>
+      <div class="message-container" style="height: 400px; overflow-y: auto;">
+        <div *ngFor="let msg of messages" class="message">
+          <strong>{{ msg.user }}:</strong> {{ msg.message }}
+        </div>
+      </div>
+      
+      <div class="form-group mt-3">
+        <textarea class="form-control" [(ngModel)]="message" rows="3" placeholder="Enter your message"></textarea>
+      </div>
+      <button class="btn btn-success mt-2" (click)="sendPrivateMessage()">Send Message</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast Notification Container -->
+<div *ngIf="notification" class="toast-container position-fixed bottom-0 end-0 p-3">
+  <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+      <strong class="me-auto">New Message</strong>
+      <button type="button" class="btn-close" (click)="notification = null"></button>
+    </div>
+    <div class="toast-body">
+      {{ notification }}
+    </div>
+  </div>
 </div>

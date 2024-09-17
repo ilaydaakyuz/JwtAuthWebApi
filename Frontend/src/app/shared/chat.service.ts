@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -7,9 +8,15 @@ import * as signalR from '@microsoft/signalr';
 export class ChatService {
 
   private hubConnection!: signalR.HubConnection;
-  public activeUsers: string[] = [];
+
+  private messagesSubject: BehaviorSubject<{ user: string, message: string }[]> = new BehaviorSubject<{ user: string, message: string }[]>([]);
+  public messages$: Observable<{ user: string, message: string }[]> = this.messagesSubject.asObservable();
+  private activeUsersSubject: BehaviorSubject<string[]> = new BehaviorSubject<string[]>([]);
+  public activeUsers$: Observable<string[]> = this.activeUsersSubject.asObservable(); // Observable olarak dışarıya açıyoruz.
 
   constructor() { }
+
+  // SignalR bağlantısını başlatan fonksiyon
   public startConnection(token: string, username: string): void {
     this.hubConnection = new signalR.HubConnectionBuilder()
       .withUrl(`http://localhost:5020/chathub?username=${encodeURIComponent(username)}`, { accessTokenFactory: () => token })
@@ -18,26 +25,41 @@ export class ChatService {
 
     this.hubConnection
       .start()
-      .then(() => console.log('SignalR bağlantısı başarılı.'))
+      .then(() => {
+        console.log('SignalR bağlantısı başarılı.');
+        this.addUserListListener(); 
+      })
       .catch(err => console.log('SignalR bağlantı hatası', err));
-    this.addUserListListener();
   }
 
-  public addMessageListener(): void {
-    this.hubConnection.on('ReceiveMessage', (message) => {
-      console.log('Gelen mesaj:', message);
+  public addMessageListener(callback: (user: string, message: string) => void): void {
+    this.hubConnection.off('ReceiveMessage');
+
+    this.hubConnection.on('ReceiveMessage', (user: string, message: string) => {
+        console.log(`Gelen mesaj: ${message} | Gönderen: ${user}`);
+        callback(user, message);
     });
+}
+
+
+  // Özel mesaj gönderme fonksiyonu
+  public sendPrivateMessage(receiver: string, message: string): void {
+    this.hubConnection.invoke('SendPrivateMessage', receiver, message)
+      .then(() => {
+        // Kendi gönderdiğiniz mesajı da ekleyin
+        const currentMessages = this.messagesSubject.getValue();
+        this.messagesSubject.next([...currentMessages, { user: 'Me', message }]);
+      })
+      .catch(err => console.error('Özel mesaj gönderilemedi: ', err));
   }
 
-  public sendMessage(message: string): void {
-    this.hubConnection.invoke('SendMessage', message)
-      .catch(err => console.error('Mesaj gönderilemedi: ', err));
-  }
-
+  // Aktif kullanıcı listesini dinleyen fonksiyon
   public addUserListListener(): void {
     this.hubConnection.on('UpdateUserList', (users: string[]) => {
-      this.activeUsers = users;
-      console.log('Aktif kullanıcılar:', this.activeUsers);
+      console.log('Aktif kullanıcılar:', users);
+
+      // BehaviorSubject üzerinden aktif kullanıcıları güncelleyin
+      this.activeUsersSubject.next(users);
     });
   }
 }

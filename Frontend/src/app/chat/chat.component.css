@@ -18,3 +18,10 @@
 .input-group {
     margin-top: 10px;
 }
+.toast-container {
+    z-index: 1050; /* Ensure the toast is on top */
+  }
+  
+  .toast {
+    min-width: 200px;
+  }
