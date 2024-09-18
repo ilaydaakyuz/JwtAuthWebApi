@@ -7,6 +7,8 @@ import { RouterModule } from '@angular/router';
 import { MenuComponent } from '../dashboard/menu/menu.component';
 import { AuthService } from '../shared/auth.service';
 import { Subscription } from 'rxjs';
+import { TranslationService } from '../shared/translation.service';
+import { response } from 'express';
 
 @Component({
   selector: 'app-chat',
@@ -17,17 +19,26 @@ import { Subscription } from 'rxjs';
 })
 export class ChatComponent implements OnInit,OnDestroy {
   message: string = '';
+  translatedMessage:string='';
+  selectedLanguage:string='';
   token: string = '';
   userId: string = '';
   username: string = '';
-  selectedUser: string = '';
+  selectedUser: string = 'tr';
   messages: { user: string, message: string }[] = [];
   activeUsers: string[] = [];
   notification: string | null = null;
+  languages = [
+    { code: 'en', name: 'English' },
+    { code: 'fr', name: 'French' },
+    { code: 'es', name: 'Spanish' },
+    { code: 'de', name: 'German' },
+    { code: 'tr', name: 'Turkish' }
+  ];
   private messageSubscription: Subscription | null = null;
   private activeUsersSubscription: Subscription | null = null;
 
-  constructor(private chatService: ChatService, private authService: AuthService) {
+  constructor(private chatService: ChatService, private authService: AuthService,private translationService:TranslationService) {
     if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
       this.token = localStorage.getItem('token') || '';
       this.userId = localStorage.getItem('userId') || '';
@@ -47,8 +58,6 @@ export class ChatComponent implements OnInit,OnDestroy {
         this.chatService.activeUsers$.subscribe(users => {
           this.activeUsers = users;
           this.chatService.addMessageListener((user, message) => {
-            this.messages.push({ user, message });
-            this.showNotification(`New message from ${user}: ${message}`);
           });
         });
         this.messageSubscription = this.chatService.messages$.subscribe(msgs => {
@@ -72,10 +81,13 @@ export class ChatComponent implements OnInit,OnDestroy {
 
   sendPrivateMessage(): void {
     if (this.selectedUser && this.message.trim() !== '') {
-      this.chatService.sendPrivateMessage(this.selectedUser, this.message);
-      this.message = '';
+      this.translationService.translateText(this.message, 'tr', this.selectedLanguage).subscribe(translatedMessage => {
+        this.chatService.sendPrivateMessage(this.selectedUser, translatedMessage);
+        this.message = '';
+      });
     }
   }
+ 
   private showNotification(message: string): void {
     this.notification = message;
     setTimeout(() => this.notification = null, 5000);

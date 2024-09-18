@@ -15,17 +15,40 @@
     <!-- Chat Messages Section -->
     <div class="col-md-8">
       <h3 class="mb-3">Chat with {{ selectedUser }}</h3>
+      
+      <!-- Language Selection -->
+      <div class="form-group mt-3">
+        <label for="languageSelect">Select Language:</label>
+        <select id="languageSelect" class="form-control" [(ngModel)]="selectedLanguage">
+          <option value="en">English</option>
+          <option value="fr">French</option>
+          <option value="de">German</option>
+         
+        </select>
+      </div>
+
+      <!-- Messages container with scrollable area -->
       <div class="message-container p-3 bg-light" style="height: 400px; overflow-y: auto; border-radius: 10px;">
-        <!-- Messages will display here -->
+        <!-- Display messages here -->
         <div *ngFor="let msg of messages" [ngClass]="{'my-message': msg.user === 'Me', 'their-message': msg.user !== 'Me'}">
-          <div class="card shadow-sm mb-2" [ngClass]="{'bg-primary text-white': msg.user === 'Me', 'bg-light': msg.user !== 'Me'}">
+          <div class="card shadow-sm mb-2" 
+               [ngClass]="{'bg-success text-white': msg.user === 'Me', 'bg-light': msg.user !== 'Me'}" 
+               style="max-width: 75%; margin-left: auto;" *ngIf="msg.user === 'Me'">
+            <div class="card-body p-2">
+              <strong>{{ msg.user }}:</strong> {{ msg.message }}
+            </div>
+          </div>
+
+          <div class="card shadow-sm mb-2" 
+               [ngClass]="{'bg-secondary text-white': msg.user !== 'Me'}" 
+               style="max-width: 75%; margin-right: auto;" *ngIf="msg.user !== 'Me'">
             <div class="card-body p-2">
               <strong>{{ msg.user }}:</strong> {{ msg.message }}
             </div>
           </div>
         </div>
       </div>
-      
+
       <!-- Message Input -->
       <div class="form-group mt-3">
         <textarea class="form-control" [(ngModel)]="message" rows="3" placeholder="Enter your message"></textarea>
