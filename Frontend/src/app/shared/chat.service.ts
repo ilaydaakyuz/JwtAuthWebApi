@@ -12,7 +12,8 @@ export class ChatService {
   private messagesSubject: BehaviorSubject<{ user: string, message: string }[]> = new BehaviorSubject<{ user: string, message: string }[]>([]);
   public messages$: Observable<{ user: string, message: string }[]> = this.messagesSubject.asObservable();
   private activeUsersSubject: BehaviorSubject<string[]> = new BehaviorSubject<string[]>([]);
-  public activeUsers$: Observable<string[]> = this.activeUsersSubject.asObservable(); // Observable olarak dışarıya açıyoruz.
+  public activeUsers$: Observable<string[]> = this.activeUsersSubject.asObservable();
+  private userMessages: { [username: string]: { user: string, message: string }[] } = {};
 
   constructor() { }
 
@@ -27,30 +28,39 @@ export class ChatService {
       .start()
       .then(() => {
         console.log('SignalR bağlantısı başarılı.');
-        this.addUserListListener(); 
+        this.addUserListListener();
       })
       .catch(err => console.log('SignalR bağlantı hatası', err));
   }
 
-  public addMessageListener(callback: (user: string, message: string) => void): void {
+  public addMessageListener(on: (user: string, message: string) => void): void {
     this.hubConnection.off('ReceiveMessage');
 
     this.hubConnection.on('ReceiveMessage', (user: string, message: string) => {
-        console.log(`Gelen mesaj: ${message} | Gönderen: ${user}`);
-        callback(user, message);
+      if (!this.userMessages[user]) {
+        this.userMessages[user] = [];
+      }
+      console.log(`Gelen mesaj: ${message} | Gönderen: ${user}`);
+
+      this.userMessages[user].push({ user, message });
+
     });
-}
+  }
 
 
   // Özel mesaj gönderme fonksiyonu
   public sendPrivateMessage(receiver: string, message: string): void {
     this.hubConnection.invoke('SendPrivateMessage', receiver, message)
       .then(() => {
-        // Kendi gönderdiğiniz mesajı da ekleyin
-        const currentMessages = this.messagesSubject.getValue();
-        this.messagesSubject.next([...currentMessages, { user: 'Me', message }]);
+        if (!this.userMessages[receiver]) {
+          this.userMessages[receiver] = [];
+        }
+        this.userMessages[receiver].push({ user: 'Me', message });
       })
       .catch(err => console.error('Özel mesaj gönderilemedi: ', err));
+  }
+  public getMessagesForUser(username: string): { user: string, message: string }[] {
+    return this.userMessages[username] || [];
   }
 
   // Aktif kullanıcı listesini dinleyen fonksiyon

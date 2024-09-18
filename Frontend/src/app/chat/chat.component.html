@@ -15,12 +15,18 @@
     <!-- Chat Messages Section -->
     <div class="col-md-8">
       <h3 class="mb-3">Chat with {{ selectedUser }}</h3>
-      <div class="message-container" style="height: 400px; overflow-y: auto;">
-        <div *ngFor="let msg of messages" class="message">
-          <strong>{{ msg.user }}:</strong> {{ msg.message }}
+      <div class="message-container p-3 bg-light" style="height: 400px; overflow-y: auto; border-radius: 10px;">
+        <!-- Messages will display here -->
+        <div *ngFor="let msg of messages" [ngClass]="{'my-message': msg.user === 'Me', 'their-message': msg.user !== 'Me'}">
+          <div class="card shadow-sm mb-2" [ngClass]="{'bg-primary text-white': msg.user === 'Me', 'bg-light': msg.user !== 'Me'}">
+            <div class="card-body p-2">
+              <strong>{{ msg.user }}:</strong> {{ msg.message }}
+            </div>
+          </div>
         </div>
       </div>
       
+      <!-- Message Input -->
       <div class="form-group mt-3">
         <textarea class="form-control" [(ngModel)]="message" rows="3" placeholder="Enter your message"></textarea>
       </div>

@@ -67,6 +67,7 @@ export class ChatComponent implements OnInit,OnDestroy {
 
   selectUser(user: string): void {
     this.selectedUser = user;
+    this.messages = this.chatService.getMessagesForUser(user);
   }
 
   sendPrivateMessage(): void {

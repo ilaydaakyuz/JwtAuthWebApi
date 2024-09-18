@@ -1,27 +1,26 @@
-.chat-container {
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-.messages {
-    max-height: 300px;
-    overflow-y: auto;
-    border: 1px solid #ddd;
-    padding: 10px;
-    border-radius: 5px;
-}
-
-.message {
-    background-color: #f8f9fa;
-}
-
-.input-group {
-    margin-top: 10px;
-}
-.toast-container {
-    z-index: 1050; /* Ensure the toast is on top */
+.message-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
   
-  .toast {
-    min-width: 200px;
+  .my-message {
+    align-self: flex-end;
+    max-width: 60%;
   }
+  
+  .their-message {
+    align-self: flex-start;
+    max-width: 60%;
+  }
+  
+  .card {
+    border-radius: 10px;
+    word-wrap: break-word;
+  }
+  
+  textarea.form-control {
+    border-radius: 10px;
+    padding: 10px;
+  }
+  
