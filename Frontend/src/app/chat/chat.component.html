@@ -1,60 +1,74 @@
-<!-- Container for chat application -->
-<div class="container mt-4">
+<!-- Main container -->
+<div class="container-fluid">
   <div class="row">
-    <!-- Active Users List -->
-    <div class="col-md-4">
-      <h3 class="mb-3">Active Users</h3>
-      <ul class="list-group">
-        <li *ngFor="let user of activeUsers" class="list-group-item d-flex justify-content-between align-items-center">
-          {{ user }}
-          <button class="btn btn-primary btn-sm" (click)="selectUser(user)">Message</button>
-        </li>
-      </ul>
+    
+    <!-- Sidebar Menu -->
+    <div class="col-12 col-md-3 col-lg-2 p-0 bg-light" style="height: 100vh; position: fixed; width: 60px; margin-left: 10px;">
+      <app-menu></app-menu>
     </div>
-
-    <!-- Chat Messages Section -->
-    <div class="col-md-8">
-      <h3 class="mb-3">Chat with {{ selectedUser }}</h3>
-      
-      <!-- Language Selection -->
-      <div class="form-group mt-3">
-        <label for="languageSelect">Select Language:</label>
-        <select id="languageSelect" class="form-control" [(ngModel)]="selectedLanguage">
-          <option value="en">English</option>
-          <option value="fr">French</option>
-          <option value="de">German</option>
-         
-        </select>
-      </div>
-
-      <!-- Messages container with scrollable area -->
-      <div class="message-container p-3 bg-light" style="height: 400px; overflow-y: auto; border-radius: 10px;">
-        <!-- Display messages here -->
-        <div *ngFor="let msg of messages" [ngClass]="{'my-message': msg.user === 'Me', 'their-message': msg.user !== 'Me'}">
-          <div class="card shadow-sm mb-2" 
-               [ngClass]="{'bg-success text-white': msg.user === 'Me', 'bg-light': msg.user !== 'Me'}" 
-               style="max-width: 75%; margin-left: auto;" *ngIf="msg.user === 'Me'">
-            <div class="card-body p-2">
-              <strong>{{ msg.user }}:</strong> {{ msg.message }}
-            </div>
+    
+    <!-- Main Content Area -->
+    <main class="col-md-9 col-lg-10 offset-md-3 offset-lg-2">
+      <div class="container mt-4">
+        <div class="row">
+          
+          <!-- Active Users List -->
+          <div class="col-md-4">
+            <h3 class="mb-3">Active Users</h3>
+            <ul class="list-group">
+              <li *ngFor="let user of activeUsers" class="list-group-item d-flex justify-content-between align-items-center">
+                {{ user }}
+                <button class="btn btn-primary btn-sm" (click)="selectUser(user)">Message</button>
+              </li>
+            </ul>
           </div>
 
-          <div class="card shadow-sm mb-2" 
-               [ngClass]="{'bg-secondary text-white': msg.user !== 'Me'}" 
-               style="max-width: 75%; margin-right: auto;" *ngIf="msg.user !== 'Me'">
-            <div class="card-body p-2">
-              <strong>{{ msg.user }}:</strong> {{ msg.message }}
+          <!-- Chat Messages Section -->
+          <div class="col-md-8">
+            <h3 class="mb-3">Chat with {{ selectedUser }}</h3>
+
+            <!-- Language Selection -->
+            <div class="form-group mt-3">
+              <label for="languageSelect">Select Language:</label>
+              <select id="languageSelect" class="form-control" [(ngModel)]="selectedLanguage">
+                <option value="tr">Türkçe</option>
+                <option value="en">English</option>
+                <option value="fr">French</option>
+                <option value="de">German</option>
+              </select>
             </div>
+
+            <!-- Messages container with scrollable area -->
+            <div class="message-container p-3 bg-light" style="height: 400px; overflow-y: auto; border-radius: 10px;">
+              <!-- Display messages here -->
+              <div *ngFor="let msg of messages" [ngClass]="{'my-message': msg.user === 'Me', 'their-message': msg.user !== 'Me'}">
+                <div class="card shadow-sm mb-2"
+                     [ngClass]="{'bg-success text-white': msg.user === 'Me', 'bg-light': msg.user !== 'Me'}"
+                     style="max-width: 75%; margin-left: auto;" *ngIf="msg.user === 'Me'">
+                  <div class="card-body p-2">
+                    <strong>{{ msg.user }}:</strong> {{ msg.message }}
+                  </div>
+                </div>
+
+                <div class="card shadow-sm mb-2"
+                     [ngClass]="{'bg-secondary text-white': msg.user !== 'Me'}"
+                     style="max-width: 75%; margin-right: auto;" *ngIf="msg.user !== 'Me'">
+                  <div class="card-body p-2">
+                    <strong>{{ msg.user }}:</strong> {{ msg.message }}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Message Input -->
+            <div class="form-group mt-3">
+              <textarea class="form-control" [(ngModel)]="message" rows="3" placeholder="Enter your message"></textarea>
+            </div>
+            <button class="btn btn-success mt-2" (click)="sendPrivateMessage()">Send Message</button>
           </div>
         </div>
       </div>
-
-      <!-- Message Input -->
-      <div class="form-group mt-3">
-        <textarea class="form-control" [(ngModel)]="message" rows="3" placeholder="Enter your message"></textarea>
-      </div>
-      <button class="btn btn-success mt-2" (click)="sendPrivateMessage()">Send Message</button>
-    </div>
+    </main>
   </div>
 </div>
 

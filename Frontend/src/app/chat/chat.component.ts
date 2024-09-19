@@ -20,11 +20,11 @@ import { response } from 'express';
 export class ChatComponent implements OnInit,OnDestroy {
   message: string = '';
   translatedMessage:string='';
-  selectedLanguage:string='';
+  selectedLanguage:string='tr';
   token: string = '';
   userId: string = '';
   username: string = '';
-  selectedUser: string = 'tr';
+  selectedUser: string = '';
   messages: { user: string, message: string }[] = [];
   activeUsers: string[] = [];
   notification: string | null = null;
@@ -81,10 +81,16 @@ export class ChatComponent implements OnInit,OnDestroy {
 
   sendPrivateMessage(): void {
     if (this.selectedUser && this.message.trim() !== '') {
+      if(this.selectedLanguage!='tr'){
       this.translationService.translateText(this.message, 'tr', this.selectedLanguage).subscribe(translatedMessage => {
         this.chatService.sendPrivateMessage(this.selectedUser, translatedMessage);
         this.message = '';
       });
+    }
+    else{
+      this.chatService.sendPrivateMessage(this.selectedUser,this.message);
+      this.message='';
+    }
     }
   }
  
